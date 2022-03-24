@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/vsc-viewer/static/css/main.6ead2e59.css",
+    "main.js": "/vsc-viewer/static/js/main.731f8793.js",
+    "static/js/787.c1112931.chunk.js": "/vsc-viewer/static/js/787.c1112931.chunk.js",
+    "static/media/logo.png": "/vsc-viewer/static/media/logo.1fe688a7cef836425f1d.png",
+    "index.html": "/vsc-viewer/index.html",
+    "main.6ead2e59.css.map": "/vsc-viewer/static/css/main.6ead2e59.css.map",
+    "main.731f8793.js.map": "/vsc-viewer/static/js/main.731f8793.js.map",
+    "787.c1112931.chunk.js.map": "/vsc-viewer/static/js/787.c1112931.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6ead2e59.css",
+    "static/js/main.731f8793.js"
+  ]
+}
