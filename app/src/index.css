@@ -13,5 +13,8 @@
     .hero-container {
         @apply p-1 md:p-40 h-auto w-fit items-center md:w-auto font-mono dark:text-white;
     }
+    .dark-theme {
+        @apply dark:bg-gray-700 dark:text-white
+    }
 
 }
