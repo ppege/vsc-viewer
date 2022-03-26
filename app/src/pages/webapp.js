@@ -38,7 +38,7 @@ export default function WebApp() {
           </div>
         </Header>
       }
-      className="dark:bg-gray-800 dark:text-white h-screen">
+      className="dark:bg-gray-800 dark:text-white h-full">
         {viewer}
     </AppShell>
   );

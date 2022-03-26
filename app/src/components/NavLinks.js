@@ -11,14 +11,16 @@ export default function NavLinks(props) {
     username: null,
     password: null,
     subdomain: null,
-    viewFull: false
+    viewFull: false,
+    ignoreOldAssignments: false
   }
   if (credentials !== null) {
     initialValues = {
         username: credentials.username,
         password: credentials.password,
         subdomain: credentials.subdomain,
-        viewFull: credentials.viewFull
+        viewFull: credentials.viewFull,
+        ignoreOldAssignments: credentials.ignoreOldAssignments
       }
     }
   const form = useForm({
@@ -65,9 +67,15 @@ export default function NavLinks(props) {
               />
 
               <Checkbox
-                label="View full assignments (buggy)"
+                label="View full assignments"
                 mt="md"
                 {...form.getInputProps('viewFull', { type: 'checkbox' })}
+              />
+
+              <Checkbox
+                label="Hide overdue assignments"
+                mt="md"
+                {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
               />
               
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3" type="submit">Apply</button>
