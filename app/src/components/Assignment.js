@@ -20,17 +20,17 @@ export default function Assignment(props) {
         while (match = urlRegex.exec(element)) {
             urls.push(match[1]);
         }
-        return urls.map((url) => <a className="text-blue-500" href={url} target="_blank" rel="noopener noreferrer">{url}</a>)
+        return urls.map((url) => <a className="text-blue-500" href={url} key={url} target="_blank" rel="noopener noreferrer">{url}</a>)
     }
 
     const linksElement = (string) => {
         let links = findAllURLs(string).map((link) => link)
         if (!!links.length) {
             return (
-                <div>
+                <>
                     <p className="font-bold pt-3">Links</p>
                     <p>{links}</p>
-                </div>
+                </>
             )
         }
     }
@@ -44,8 +44,8 @@ export default function Assignment(props) {
                     </div>
                 <p id="description" className={`text-md ${settings.viewFull ? null:'truncate'}`}>
                     {props.description}
-                    {settings.viewFull ? linksElement(props.description):null}
                 </p>
+                {settings.viewFull ? linksElement(props.description):null}
                 {settings.viewFull ? null:<Button onClick={() => {setOpened(true)}} variant="light" color="blue" fullWidth style={{ marginTop: 14 }} className="hover:bg-gray-300/50 dark:hover:bg-gray-800/50 dark:text-blue-400">
                     See more
                 </Button>}
@@ -60,7 +60,9 @@ export default function Assignment(props) {
             >
                 <div className="divide-y-2">
                     <p className="pb-3">{props.description}</p>
-                    {linksElement(props.description)}
+                    <div>
+                        {linksElement(props.description)}
+                    </div>
                 </div>
                 <p className="pt-6 text-sm text-gray-400">{props.author}</p>
             </Modal>

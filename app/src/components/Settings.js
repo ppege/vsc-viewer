@@ -51,7 +51,7 @@ export default function Settings(props) {
     }
     return (
         <>
-            <IconTextButton icon={<FaWrench size="30"/>} text="Settings" imgClass={`${(props.credentials) ? '':'animate-bounce'} bg-red-200/50`} onClick={() => {setOpened(true)}} />
+            <IconTextButton icon={<FaWrench size="30"/>} text="Settings" imgClass={`${(props.credentials.username) ? null:'animate-bounce'} bg-red-200/50`} onClick={() => {setOpened(true)}} />
             <Drawer
                 opened={opened}
                 onClose={() => {setOpened(false); props.setOpened(false)}}

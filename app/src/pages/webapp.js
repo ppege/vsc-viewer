@@ -10,9 +10,9 @@ export default function WebApp() {
   const [ opened, setOpened ] = useState(false)
 
   const [ credentials, setCredentials ] = useState(JSON.parse(localStorage.getItem('credentials')) || {
-    username: null,
-    password: null,
-    subdomain: null
+    username: undefined,
+    password: undefined,
+    subdomain: undefined
   })
   const [ settings, setSettings ] = useState(JSON.parse(localStorage.getItem('settings')) || {
     viewFull: false,
@@ -25,7 +25,7 @@ export default function WebApp() {
       navbarOffsetBreakpoint="sm"
       fixed
       navbar={
-        <Navbar height={600} p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ base: 300 }} className="dark:bg-gray-700">
+        <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ base: 300 }} className="dark:bg-gray-700">
           <Links credentials={credentials} setCredentials={setCredentials} setOpened={setOpened} />
         </Navbar>
       }

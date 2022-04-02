@@ -27,8 +27,8 @@ export default function Viewer(props) {
     const [ date, setDate ] = useState(dateToString(new Date()));
     const [ assignments, setAssignments ] = useState(new Map())
     useEffect(() => {
-        if (!props.credentials) {
-            setAssignments(<Assignment {...{subject: "Credentials not set", description: "Please enter your ViGGO credentials in the settings menu."}} key="Loading" isMessage={true} />)
+        if (!props.credentials.username) {
+            setAssignments(<Assignment {...{subject: "Credentials not set", description: "Please enter your ViGGO credentials in the settings menu."}} key="No credentials" isMessage={true} />)
             return;
         }
         setAssignments(<Assignment {...{subject: "Loading...", description: "Please wait a moment."}} key="Loading" isMessage={true} />)
