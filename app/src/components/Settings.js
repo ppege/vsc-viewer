@@ -58,10 +58,11 @@ export default function Settings(props) {
                 title={<h1 className="font-bold text-xl">Settings</h1>}
                 padding="xl"
                 size="xl"
+                classNames={{drawer: 'dark:bg-gray-800 dark:text-white'}}
             >
-                <Tabs active={activeTab} onTabChange={setActiveTab}>
-                    <Tabs.Tab label="Customize">
-                        <Card shadow="sm" p="lg">
+                <Tabs active={activeTab} onTabChange={setActiveTab} classNames={{tabLabel: 'dark:text-white'}}>
+                    <Tabs.Tab label="Customize" disabled={!props.credentials.username}>
+                        <Card shadow="sm" p="lg" className="dark:bg-gray-700 dark:text-white">
                             <h1 className="text-2xl font-bold">Customize</h1>
                             <form>
                                 <Checkbox
@@ -70,6 +71,7 @@ export default function Settings(props) {
                                 onClick={() => {
                                     toggleSetting(true)
                                 }}
+                                classNames={{label: "dark:text-white"}}
                                 {...form.getInputProps('viewFull', { type: 'checkbox' })}
                                 />
 
@@ -79,19 +81,21 @@ export default function Settings(props) {
                                 onClick={() => {
                                     toggleSetting(false)
                                 }}
+                                classNames={{label: "dark:text-white"}}
                                 {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
                                 />
                             </form>
                         </Card>
                     </Tabs.Tab>
                     <Tabs.Tab label="Login">
-                        <Card shadow="sm" p="lg">
-                            <h1 className="text-2xl font-bold">Login</h1>
+                        <Card shadow="sm" p="lg" className="dark:bg-gray-700">
+                            <h1 className="text-2xl font-bold dark:text-white">Login</h1>
                             <form onSubmit={form.onSubmit(handleSubmit)}>
                                 <TextInput
                                 required
                                 label="Username"
                                 placeholder="your@email.com"
+                                classNames={{label: "dark:text-white", input: "dark:bg-gray-800 dark:text-white"}}
                                 {...form.getInputProps('username')}
                                 />
 
@@ -100,6 +104,7 @@ export default function Settings(props) {
                                 label="Password"
                                 type="password"
                                 placeholder="Your password"
+                                classNames={{label: "dark:text-white", input: "dark:bg-gray-800 dark:text-white"}}
                                 {...form.getInputProps('password')}
                                 />
 
@@ -107,11 +112,12 @@ export default function Settings(props) {
                                 required
                                 label="Subdomain"
                                 placeholder="example-subdomain"
+                                classNames={{label: "dark:text-white", input: "dark:bg-gray-800 dark:text-white"}}
                                 {...form.getInputProps('subdomain')}
                                 />
 
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3" type="submit">Login</button>
-                                <p className="text-sm text-gray-400 mt-2">This menu will close once you login.</p>
+                                <p className="text-sm text-gray-400 mt-2">You will be shown the customization menu once you login.</p>
                             </form>
                         </Card>
                     </Tabs.Tab>

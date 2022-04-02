@@ -54,6 +54,9 @@ export default function Assignment(props) {
                 opened={opened}
                 onClose={() => setOpened(false)}
                 title={<h1 className="font-bold text-xl">{props.subject}</h1>}
+                classNames={{
+                    modal: "dark:bg-gray-800 dark:text-gray-200"
+                }}
             >
                 <div className="divide-y-2">
                     <p className="pb-3">{props.description}</p>
