@@ -27,34 +27,26 @@ export default function Viewer(props) {
     const [ date, setDate ] = useState(dateToString(new Date()));
     const [ assignments, setAssignments ] = useState(new Map())
     useEffect(() => {
-        function isBeforeToday(dateString) {
-            if (props.settings.ignoreOldAssignments) {
-                const today = new Date()
-                const assignmentDate = new Date(dateString + ' ' + today.getFullYear())
-                return assignmentDate < today
-            }
-            return false
-        }
-        if (!props.settings) {
-            setAssignments(<Assignment {...{subject: "Credentials not set", description: "Please enter your ViGGO credentials in the settings menu."}} key="Loading" fullText={true} />)
+        if (!props.credentials) {
+            setAssignments(<Assignment {...{subject: "Credentials not set", description: "Please enter your ViGGO credentials in the settings menu."}} key="Loading" isMessage={true} />)
             return;
         }
-        setAssignments(<Assignment {...{subject: "Loading...", description: "Please wait a moment."}} key="Loading" fullText={true} />)
-        axios.get(`https://api.nangurepo.com/v2/scrape?username=${props.settings.username}&password=${props.settings.password}&subdomain=${props.settings.subdomain}&date=${date}`)
+        setAssignments(<Assignment {...{subject: "Loading...", description: "Please wait a moment."}} key="Loading" isMessage={true} />)
+        axios.get(`https://api.nangurepo.com/v2/scrape?username=${props.credentials.username}&password=${props.credentials.password}&subdomain=${props.credentials.subdomain}&date=${date}`)
         .then((response) => {
             if (!response.data.length) {
-                setAssignments(<Assignment {...{subject: "No assignments found", description: "No assignments were found for this date. You may have entered your credentials incorrectly."}} key="No assignments" fullText={true} />)
+                setAssignments(<Assignment {...{subject: "No assignments found", description: "No assignments were found for this date. You may have entered your credentials incorrectly."}} key="No assignments" isMessage={true} />)
                 return;
             }
             let dataMap = response.data.reverse().map((assignment) => (
-                isBeforeToday(assignment.date) ? null:<Assignment {...assignment} key={assignment.url} fullText={props.settings.viewFull} />
+                <Assignment {...assignment} key={assignment.url} />
             ))
             setAssignments(dataMap)
         })
-    }, [props.settings, date])
+    }, [props.credentials, date])
     return (
         <div className="flex flex-col">
-            <div className="bg-gray-100 dark:bg-gray-700 items-center justify-center text-center rounded w-full md:w-1/2 md:justify-between h-fit flex flex-row">
+            <div className="bg-gray-100 dark:bg-gray-700 items-center justify-center text-center rounded w-full md:w-1/3 lg:1/2 md:justify-between h-fit flex flex-row">
                 <IconButton icon={<FaAngleLeft size="30" />} className="w-min h-min border-0" onClick={() => travelOneWeek('back')} />
                 <h1 className="text-xl md:text-3xl font-mono mr-2 ml-2">{date}</h1>
                 <IconButton icon={<FaAngleRight size="30" />} className="w-min h-min border-0" onClick={() => travelOneWeek('forward')} />

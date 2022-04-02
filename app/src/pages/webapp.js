@@ -1,5 +1,6 @@
 import '../App.css';
 import React, { useState } from 'react'
+import { Context } from '../components/Context.js'
 import LogoHeader from '../components/LogoHeader.js'
 import Links from '../components/NavLinks.js'
 import Viewer from '../components/Viewer.js'
@@ -7,16 +8,25 @@ import { AppShell, Navbar, Header, Burger, MediaQuery, useMantineTheme } from '@
 
 export default function WebApp() {
   const [ opened, setOpened ] = useState(false)
-  const [ settings, setSettings ] = useState(JSON.parse(localStorage.getItem('values')))
+
+  const [ credentials, setCredentials ] = useState(JSON.parse(localStorage.getItem('credentials')) || {
+    username: null,
+    password: null,
+    subdomain: null
+  })
+  const [ settings, setSettings ] = useState(JSON.parse(localStorage.getItem('settings')) || {
+    viewFull: false,
+    ignoreOldAssignments: false
+  })
   const theme = useMantineTheme();
-  let viewer = <Viewer settings={settings} />
   return (
-    <AppShell
+    <Context.Provider value={[settings, setSettings]}>
+      <AppShell
       navbarOffsetBreakpoint="sm"
       fixed
       navbar={
         <Navbar height={600} p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ base: 300 }} className="dark:bg-gray-700">
-          <Links settings={settings} setSettings={setSettings} setOpened={setOpened} />
+          <Links credentials={credentials} setCredentials={setCredentials} setOpened={setOpened} />
         </Navbar>
       }
       header={
@@ -36,7 +46,9 @@ export default function WebApp() {
         </Header>
       }
       className="dark:bg-gray-800 dark:text-white h-full">
-        {viewer}
-    </AppShell>
+        <Viewer credentials={credentials} />
+      </AppShell>
+    </Context.Provider>
+    
   );
 }

@@ -9,7 +9,7 @@ export default function NavLinks(props) {
       <Navbar.Section grow mt="md">
         <div className="flex flex-col gap-2">
           <IconTextButton icon={<FaEye size="30"/>} text="Viewer" imgClass="bg-blue-200/50" active={true} />
-          <Settings settings={props.settings} setSettings={props.setSettings} setOpened={props.setOpened} />
+          <Settings setOpened={props.setOpened} credentials={props.credentials} setCredentials={props.setCredentials} />
         </div>
       </Navbar.Section>
       <Navbar.Section>

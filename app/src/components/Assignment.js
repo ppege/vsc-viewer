@@ -1,15 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { Context } from './Context.js'
 import { Card, Button, Modal } from '@mantine/core'
-import Linkify from 'react-linkify'
 
 export default function Assignment(props) {
+    let [ settings ] = useContext(Context)
+    if (props.isMessage) {
+        settings = {viewFull: true}
+    }
     const [ opened, setOpened ] = useState(false);
     function isBeforeToday() {
         const today = new Date()
         const date = new Date(props.date + ' ' + today.getFullYear())
         return date < today
     }
-    return (
+    const findAllURLs = (element) => {
+        let urlRegex = /(https?:\/\/[^\s]+)/g;
+        let urls = [];
+        let match = null;
+        while (match = urlRegex.exec(element)) {
+            urls.push(match[1]);
+        }
+        return urls.map((url) => <a className="text-blue-500" href={url} target="_blank" rel="noopener noreferrer">{url}</a>)
+    }
+
+    const linksElement = (string) => {
+        let links = findAllURLs(string).map((link) => link)
+        if (!!links.length) {
+            return (
+                <div>
+                    <p className="font-bold pt-3">Links</p>
+                    <p>{links}</p>
+                </div>
+            )
+        }
+    }
+    const assignment = (
         <div className="w-full h-full">
             <Card shadow="sm" p="lg" className="bg-gray-100 dark:bg-gray-700 dark:text-white h-full">
                     <div className="flex flex-col items-center justify-between mb-4">
@@ -17,8 +42,11 @@ export default function Assignment(props) {
                         <p className={`text-gray-500 dark:text-gray-400 ${isBeforeToday() ? 'text-red-600 dark:text-red-400':null}`}>{props.date}</p>
                         <p className="text-gray-600 dark:text-gray-300">{props.time}</p>
                     </div>
-                <p id="description" className={`text-md ${props.fullText ? null:'truncate'}`}><Linkify properties={{ target: '_blank', style: { color: '#0000FF' }}}>{props.description}</Linkify></p>
-                {props.fullText ? null:<Button onClick={() => {setOpened(true)}} variant="light" color="blue" fullWidth style={{ marginTop: 14 }} className="hover:bg-gray-300/50 dark:hover:bg-gray-800/50 dark:text-blue-400">
+                <p id="description" className={`text-md ${settings.viewFull ? null:'truncate'}`}>
+                    {props.description}
+                    {settings.viewFull ? linksElement(props.description):null}
+                </p>
+                {settings.viewFull ? null:<Button onClick={() => {setOpened(true)}} variant="light" color="blue" fullWidth style={{ marginTop: 14 }} className="hover:bg-gray-300/50 dark:hover:bg-gray-800/50 dark:text-blue-400">
                     See more
                 </Button>}
             </Card>
@@ -27,9 +55,16 @@ export default function Assignment(props) {
                 onClose={() => setOpened(false)}
                 title={<h1 className="font-bold text-xl">{props.subject}</h1>}
             >
-                <p><Linkify properties={{ target: '_blank' }}>{props.description}</Linkify></p>
+                <div className="divide-y-2">
+                    <p className="pb-3">{props.description}</p>
+                    {linksElement(props.description)}
+                </div>
                 <p className="pt-6 text-sm text-gray-400">{props.author}</p>
             </Modal>
         </div>
     )
+    if (settings.ignoreOldAssignments) {
+        return isBeforeToday() ? null:assignment
+    }
+    return assignment
 }
