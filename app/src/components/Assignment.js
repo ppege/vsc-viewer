@@ -42,7 +42,7 @@ export default function Assignment(props) {
                         <p className={`text-gray-500 dark:text-gray-400 ${isBeforeToday() ? 'text-red-600 dark:text-red-400':null}`}>{props.date}</p>
                         <p className="text-gray-600 dark:text-gray-300">{props.time}</p>
                     </div>
-                <p id="description" className={`text-md ${settings.viewFull ? null:'truncate'}`}>
+                <p id="description" className={`text-md  ${settings.viewFull ? 'whitespace-pre-wrap':'truncate'}`}>
                     {props.description}
                 </p>
                 {settings.viewFull ? linksElement(props.description):null}
@@ -58,7 +58,7 @@ export default function Assignment(props) {
                     modal: "dark:bg-gray-800 dark:text-gray-200"
                 }}
             >
-                    <p className="pb-3">{props.description}</p>
+                    <p className="pb-3 whitespace-pre-wrap">{props.description}</p>
                     {linksElement(props.description)}
                 <p className="pt-6 text-sm text-gray-400">{props.author}</p>
             </Modal>
