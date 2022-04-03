@@ -58,12 +58,8 @@ export default function Assignment(props) {
                     modal: "dark:bg-gray-800 dark:text-gray-200"
                 }}
             >
-                <div className="divide-y-2">
                     <p className="pb-3">{props.description}</p>
-                    <div>
-                        {linksElement(props.description)}
-                    </div>
-                </div>
+                    {linksElement(props.description)}
                 <p className="pt-6 text-sm text-gray-400">{props.author}</p>
             </Modal>
         </div>
