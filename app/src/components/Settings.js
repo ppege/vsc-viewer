@@ -34,19 +34,19 @@ export default function Settings(props) {
     }
 
     const toggleSetting = (setting) => {
-        const values = setting ? {
-            viewFull: !form.values.viewFull,
-            ignoreOldAssignments: form.values.ignoreOldAssignments
-        } : {
-            viewFull: form.values.viewFull,
-            ignoreOldAssignments: !form.values.ignoreOldAssignments
-        }
+        form.values[setting] = !form.values[setting]
+        const newSettings = Object.keys(form.values).reduce((acc, key) => {
+            if (key !== 'username' && key !== 'password' && key !== 'subdomain') {
+                acc[key] = form.values[key]
+            }
+            return acc
+        }, {})
 
-        localStorage.setItem('settings', JSON.stringify(values))
+        localStorage.setItem('settings', JSON.stringify(newSettings))
         
         setSettings({
-            viewFull: values.viewFull, 
-            ignoreOldAssignments: values.ignoreOldAssignments
+            viewFull: newSettings.viewFull, 
+            ignoreOldAssignments: newSettings.ignoreOldAssignments
         })
     }
     return (
@@ -69,7 +69,7 @@ export default function Settings(props) {
                                 label="View full assignments"
                                 mt="md"
                                 onClick={() => {
-                                    toggleSetting(true)
+                                    toggleSetting('viewFull')
                                 }}
                                 classNames={{label: "dark:text-white"}}
                                 {...form.getInputProps('viewFull', { type: 'checkbox' })}
@@ -79,7 +79,7 @@ export default function Settings(props) {
                                 label="Hide overdue assignments"
                                 mt="md"
                                 onClick={() => {
-                                    toggleSetting(false)
+                                    toggleSetting('ignoreOldAssignments')
                                 }}
                                 classNames={{label: "dark:text-white"}}
                                 {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
