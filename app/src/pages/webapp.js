@@ -16,7 +16,10 @@ export default function WebApp() {
   })
   const [ settings, setSettings ] = useState(JSON.parse(localStorage.getItem('settings')) || {
     viewFull: false,
-    ignoreOldAssignments: false
+    ignoreOldAssignments: false,
+    showPostDate: false,
+    showAssignmentTime: false,
+    sort: 'newest'
   })
   const theme = useMantineTheme();
   return (

@@ -1,24 +1,22 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
-import { Drawer, TextInput, Checkbox, Card, Tabs } from '@mantine/core'
+import { Drawer, TextInput, Checkbox, Card, Tabs, Select } from '@mantine/core'
 import { FaWrench } from 'react-icons/fa'
 import IconTextButton from './IconTextButton.js'
 import { Context } from './Context.js'
 
 export default function Settings(props) {
     const [ settings, setSettings ] = useContext(Context)
-    const [ activeTab, setActiveTab ] = useState(props.credentials.username ? 0:1);
-    const [ opened, setOpened ] = useState(false);
+    const [ activeTab, setActiveTab ] = useState(props.credentials.username ? 0:1)
+    const [ opened, setOpened ] = useState(false)
     const initialValues = {
-        username: props.credentials.username,
-        password: props.credentials.password,
-        subdomain: props.credentials.subdomain,
-        viewFull: settings.viewFull,
-        ignoreOldAssignments: settings.ignoreOldAssignments
+        ...props.credentials,
+        ...settings
     }
     const form = useForm({
         initialValues: initialValues
     })
+    const [ value, setValue ] = useState(form.values.sort)
     const handleSubmit = (values) => {
         localStorage.setItem('credentials', JSON.stringify({
             username: values.username,
@@ -41,14 +39,18 @@ export default function Settings(props) {
             }
             return acc
         }, {})
-
-        localStorage.setItem('settings', JSON.stringify(newSettings))
-        
+        setSettings(newSettings)
+    }
+    const handleSortChange = (values) => {
+        setValue(values)
         setSettings({
-            viewFull: newSettings.viewFull, 
-            ignoreOldAssignments: newSettings.ignoreOldAssignments
+            ...settings,
+            sort: values
         })
     }
+    useEffect(() => {
+        localStorage.setItem('settings', JSON.stringify(settings))
+    }, [settings])
     return (
         <>
             <IconTextButton icon={<FaWrench size="30"/>} text="Settings" imgClass={`${(props.credentials.username) ? null:'animate-bounce'} bg-red-200/50`} onClick={() => {setOpened(true)}} />
@@ -83,6 +85,38 @@ export default function Settings(props) {
                                 }}
                                 classNames={{label: "dark:text-white"}}
                                 {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
+                                />
+
+                                <Checkbox
+                                label="Show assignment post dates"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('showPostDate')
+                                }}
+                                classNames={{label: "dark:text-white"}}
+                                {...form.getInputProps('showPostDate', { type: 'checkbox' })}
+                                />
+
+                                <Checkbox
+                                label="Show assignment time"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('showAssignmentTime')
+                                }}
+                                classNames={{label: "dark:text-white"}}
+                                {...form.getInputProps('showAssignmentTime', { type: 'checkbox' })}
+                                />
+                                <div className="pt-3" />
+                                <Select
+                                label="Sort assignments by"
+                                placeholder="Pick one"
+                                data={[
+                                    { value: 'newest', label: 'Newest' },
+                                    { value: 'oldest', label: 'Oldest' },
+                                    { value: 'smart', label: 'Smart' }
+                                ]}
+                                value={value}
+                                onChange={handleSortChange}
                                 />
                             </form>
                         </Card>
