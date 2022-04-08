@@ -78,17 +78,18 @@ export default function Settings(props) {
                                 />
 
                                 <Checkbox
-                                label="Hide overdue assignments"
+                                label="Show links in assignments"
                                 mt="md"
+                                disabled={!settings.viewFull}
                                 onClick={() => {
-                                    toggleSetting('ignoreOldAssignments')
+                                    toggleSetting('showAssignmentLink')
                                 }}
                                 classNames={{label: "dark:text-white"}}
-                                {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
+                                {...form.getInputProps('showAssignmentLink', { type: 'checkbox' })}
                                 />
 
                                 <Checkbox
-                                label="Show assignment post dates"
+                                label="Show assignment post dates and authors"
                                 mt="md"
                                 onClick={() => {
                                     toggleSetting('showPostDate')
@@ -98,7 +99,7 @@ export default function Settings(props) {
                                 />
 
                                 <Checkbox
-                                label="Show assignment time"
+                                label="Show assignment times"
                                 mt="md"
                                 onClick={() => {
                                     toggleSetting('showAssignmentTime')
@@ -106,10 +107,32 @@ export default function Settings(props) {
                                 classNames={{label: "dark:text-white"}}
                                 {...form.getInputProps('showAssignmentTime', { type: 'checkbox' })}
                                 />
+
+                                <Checkbox
+                                label="Center assignment headers"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('centerHeader')
+                                }}
+                                classNames={{label: "dark:text-white"}}
+                                {...form.getInputProps('centerHeader', { type: 'checkbox' })}
+                                />
+
+                                <Checkbox
+                                label="Hide overdue assignments"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('ignoreOldAssignments')
+                                }}
+                                classNames={{label: "dark:text-white"}}
+                                {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
+                                />
+
                                 <div className="pt-3" />
                                 <Select
                                 label="Sort assignments by"
                                 placeholder="Pick one"
+                                classNames={{label: "dark:text-white", input: "dark:bg-gray-800 dark:text-white", dropdown: "dark:bg-gray-800 dark:text-white", item: "dark:text-white dark:hover:bg-gray-700", selected: "dark:bg-gray-900"}}
                                 data={[
                                     { value: 'newest', label: 'Newest' },
                                     { value: 'oldest', label: 'Oldest' },
