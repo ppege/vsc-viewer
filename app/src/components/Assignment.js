@@ -7,7 +7,7 @@ export default function Assignment(props) {
     if (props.isMessage) {
         settings = {viewFull: true}
     }
-    const showButton = !(settings.viewFull && settings.showAssignmentTime && settings.showPostDate && settings.showAssignmentLink)
+    const showButton = !(settings.viewFull && settings.showAssignmentTime && settings.showPostDate && settings.showAssignmentLink) && !props.isMessage
     const [ opened, setOpened ] = useState(false);
     function isBeforeToday() {
         const today = new Date()

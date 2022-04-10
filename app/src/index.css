@@ -14,7 +14,10 @@
         @apply p-1 md:p-40 h-auto w-fit items-center md:w-auto font-mono dark:text-white;
     }
     .dark-theme {
-        @apply dark:bg-gray-700 dark:text-white
+        @apply dark:bg-gray-700 dark:text-white;
+    }
+    .subtitle {
+        @apply text-sm text-gray-500 dark:text-gray-400;
     }
 
 }

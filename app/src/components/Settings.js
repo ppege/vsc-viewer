@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
-import { Drawer, TextInput, Checkbox, Card, Tabs, Select, Switch } from '@mantine/core'
-import { FaWrench } from 'react-icons/fa'
+import { Drawer, TextInput, Card, Tabs, Select, Switch, Tooltip } from '@mantine/core'
+import { FaWrench, FaQuestionCircle } from 'react-icons/fa'
 import IconTextButton from './IconTextButton.js'
 import { Context } from './Context.js'
 
@@ -71,6 +71,10 @@ export default function Settings(props) {
                         <Card shadow="sm" p="lg" className="dark:bg-gray-700 dark:text-white">
                             <h1 className="text-2xl font-bold">Customize</h1>
                             <form>
+                                <h1 className="text-xl mt-3">Visibility</h1>
+                                <p className="subtitle">
+                                    This controls what you can see on each assignment at a glance without opening the details menu.
+                                </p>
                                 <Switch
                                 label="View full assignments"
                                 mt="md"
@@ -112,16 +116,6 @@ export default function Settings(props) {
                                 />
 
                                 <Switch
-                                label="Center assignment headers"
-                                mt="md"
-                                onClick={() => {
-                                    toggleSetting('centerHeader')
-                                }}
-                                classNames={switchClass}
-                                {...form.getInputProps('centerHeader', { type: 'checkbox' })}
-                                />
-
-                                <Switch
                                 label="Hide overdue assignments"
                                 mt="md"
                                 onClick={() => {
@@ -131,7 +125,22 @@ export default function Settings(props) {
                                 {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
                                 />
 
-                                <div className="pt-3" />
+                                <h1 className="text-xl mt-4">Visual preferences</h1>
+                                <p className="subtitle">
+                                    This controls how you prefer things to be presented.
+                                </p>
+                                <Switch
+                                label="Center assignment headers"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('centerHeader')
+                                }}
+                                classNames={switchClass}
+                                {...form.getInputProps('centerHeader', { type: 'checkbox' })}
+                                />
+
+
+                                {/* <div className="pt-3" />
                                 <Select
                                 label="Sort assignments by"
                                 placeholder="Pick one"
@@ -143,7 +152,7 @@ export default function Settings(props) {
                                 ]}
                                 value={value}
                                 onChange={handleSortChange}
-                                />
+                                /> */}
                             </form>
                         </Card>
                     </Tabs.Tab>
