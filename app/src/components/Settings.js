@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
-import { Drawer, TextInput, Card, Tabs, Select, Switch } from '@mantine/core'
-import { FaWrench } from 'react-icons/fa'
+import { Drawer, TextInput, Card, Tabs, Switch } from '@mantine/core'
+import { FaWrench, FaArrowUp, FaArrowDown } from 'react-icons/fa'
 import IconTextButton from './IconTextButton.js'
 import { Context } from './Context.js'
 
@@ -16,7 +16,6 @@ export default function Settings(props) {
     const form = useForm({
         initialValues: initialValues
     })
-    const [ value, setValue ] = useState(form.values.sort)
     const handleSubmit = (values) => {
         localStorage.setItem('credentials', JSON.stringify({
             username: values.username,
@@ -41,8 +40,11 @@ export default function Settings(props) {
         }, {})
         setSettings(newSettings)
     }
-    const handleSortChange = (values) => {
-        setValue(values)
+    const handleSortChange = () => {
+        let values = 'newest'
+        if (settings.sort === 'newest') {
+            values = 'oldest'
+        }
         setSettings({
             ...settings,
             sort: values
@@ -139,20 +141,17 @@ export default function Settings(props) {
                                 {...form.getInputProps('centerHeader', { type: 'checkbox' })}
                                 />
 
-
-                                {/* <div className="pt-3" />
-                                <Select
-                                label="Sort assignments by"
-                                placeholder="Pick one"
-                                classNames={{label: "dark:text-white", input: "dark:bg-gray-800 dark:text-white", dropdown: "dark:bg-gray-800 dark:text-white", item: "dark:text-white dark:hover:bg-gray-700", selected: "dark:bg-gray-900"}}
-                                data={[
-                                    { value: 'newest', label: 'Newest' },
-                                    { value: 'oldest', label: 'Oldest' },
-                                    { value: 'smart', label: 'Smart' }
-                                ]}
-                                value={value}
-                                onChange={handleSortChange}
-                                /> */}
+                                
+                                    <button onClick={handleSortChange} type="button" className="bg-blue-500 hover:bg-blue-600 dark:bg-gray-800 dark:hover:bg-gray-900 text-white font-bold rounded mt-3 px-4 py-2">
+                                        <div className="flex flex-row items-center -ml-1 divide-x">
+                                            <div className="pr-3">
+                                                {settings.sort === 'newest' ? <FaArrowDown />:<FaArrowUp />}
+                                            </div>
+                                            <div className="pl-3">
+                                                <p>Sorting by {settings.sort}</p>
+                                            </div>
+                                        </div>
+                                    </button>
                             </form>
                         </Card>
                     </Tabs.Tab>
