@@ -1,24 +1,22 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
-import { Drawer, TextInput, Checkbox, Card, Tabs } from '@mantine/core'
+import { Drawer, TextInput, Card, Tabs, Select, Switch } from '@mantine/core'
 import { FaWrench } from 'react-icons/fa'
 import IconTextButton from './IconTextButton.js'
 import { Context } from './Context.js'
 
 export default function Settings(props) {
     const [ settings, setSettings ] = useContext(Context)
-    const [ activeTab, setActiveTab ] = useState(props.credentials.username ? 0:1);
-    const [ opened, setOpened ] = useState(false);
+    const [ activeTab, setActiveTab ] = useState(props.credentials.username ? 0:1)
+    const [ opened, setOpened ] = useState(false)
     const initialValues = {
-        username: props.credentials.username,
-        password: props.credentials.password,
-        subdomain: props.credentials.subdomain,
-        viewFull: settings.viewFull,
-        ignoreOldAssignments: settings.ignoreOldAssignments
+        ...props.credentials,
+        ...settings
     }
     const form = useForm({
         initialValues: initialValues
     })
+    const [ value, setValue ] = useState(form.values.sort)
     const handleSubmit = (values) => {
         localStorage.setItem('credentials', JSON.stringify({
             username: values.username,
@@ -34,20 +32,28 @@ export default function Settings(props) {
     }
 
     const toggleSetting = (setting) => {
-        const values = setting ? {
-            viewFull: !form.values.viewFull,
-            ignoreOldAssignments: form.values.ignoreOldAssignments
-        } : {
-            viewFull: form.values.viewFull,
-            ignoreOldAssignments: !form.values.ignoreOldAssignments
-        }
-
-        localStorage.setItem('settings', JSON.stringify(values))
-        
+        form.values[setting] = !form.values[setting]
+        const newSettings = Object.keys(form.values).reduce((acc, key) => {
+            if (key !== 'username' && key !== 'password' && key !== 'subdomain') {
+                acc[key] = form.values[key]
+            }
+            return acc
+        }, {})
+        setSettings(newSettings)
+    }
+    const handleSortChange = (values) => {
+        setValue(values)
         setSettings({
-            viewFull: values.viewFull, 
-            ignoreOldAssignments: values.ignoreOldAssignments
+            ...settings,
+            sort: values
         })
+    }
+    useEffect(() => {
+        localStorage.setItem('settings', JSON.stringify(settings))
+    }, [settings])
+    let switchClass = {
+        label: "dark:text-white",
+        input: "dark:bg-gray-800/50"
     }
     return (
         <>
@@ -65,25 +71,88 @@ export default function Settings(props) {
                         <Card shadow="sm" p="lg" className="dark:bg-gray-700 dark:text-white">
                             <h1 className="text-2xl font-bold">Customize</h1>
                             <form>
-                                <Checkbox
+                                <h1 className="text-xl mt-3">Visibility</h1>
+                                <p className="subtitle">
+                                    This controls what you can see on each assignment at a glance without opening the details menu.
+                                </p>
+                                <Switch
                                 label="View full assignments"
                                 mt="md"
                                 onClick={() => {
-                                    toggleSetting(true)
+                                    toggleSetting('viewFull')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('viewFull', { type: 'checkbox' })}
                                 />
 
-                                <Checkbox
+                                <Switch
+                                label="Show links in assignments"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('showAssignmentLink')
+                                }}
+                                classNames={switchClass}
+                                {...form.getInputProps('showAssignmentLink', { type: 'checkbox' })}
+                                />
+
+                                <Switch
+                                label="Show assignment authors"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('showPostDate')
+                                }}
+                                classNames={switchClass}
+                                {...form.getInputProps('showPostDate', { type: 'checkbox' })}
+                                />
+
+                                <Switch
+                                label="Show assignment times"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('showAssignmentTime')
+                                }}
+                                classNames={switchClass}
+                                {...form.getInputProps('showAssignmentTime', { type: 'checkbox' })}
+                                />
+
+                                <Switch
                                 label="Hide overdue assignments"
                                 mt="md"
                                 onClick={() => {
-                                    toggleSetting(false)
+                                    toggleSetting('ignoreOldAssignments')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
                                 />
+
+                                <h1 className="text-xl mt-4">Visual preferences</h1>
+                                <p className="subtitle">
+                                    This controls how you prefer things to be presented.
+                                </p>
+                                <Switch
+                                label="Center assignment headers"
+                                mt="md"
+                                onClick={() => {
+                                    toggleSetting('centerHeader')
+                                }}
+                                classNames={switchClass}
+                                {...form.getInputProps('centerHeader', { type: 'checkbox' })}
+                                />
+
+
+                                {/* <div className="pt-3" />
+                                <Select
+                                label="Sort assignments by"
+                                placeholder="Pick one"
+                                classNames={{label: "dark:text-white", input: "dark:bg-gray-800 dark:text-white", dropdown: "dark:bg-gray-800 dark:text-white", item: "dark:text-white dark:hover:bg-gray-700", selected: "dark:bg-gray-900"}}
+                                data={[
+                                    { value: 'newest', label: 'Newest' },
+                                    { value: 'oldest', label: 'Oldest' },
+                                    { value: 'smart', label: 'Smart' }
+                                ]}
+                                value={value}
+                                onChange={handleSortChange}
+                                /> */}
                             </form>
                         </Card>
                     </Tabs.Tab>
