@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
-import { Drawer, TextInput, Checkbox, Card, Tabs, Select } from '@mantine/core'
+import { Drawer, TextInput, Checkbox, Card, Tabs, Select, Switch } from '@mantine/core'
 import { FaWrench } from 'react-icons/fa'
 import IconTextButton from './IconTextButton.js'
 import { Context } from './Context.js'
@@ -51,6 +51,10 @@ export default function Settings(props) {
     useEffect(() => {
         localStorage.setItem('settings', JSON.stringify(settings))
     }, [settings])
+    let switchClass = {
+        label: "dark:text-white",
+        input: "dark:bg-gray-800/50"
+    }
     return (
         <>
             <IconTextButton icon={<FaWrench size="30"/>} text="Settings" imgClass={`${(props.credentials.username) ? null:'animate-bounce'} bg-red-200/50`} onClick={() => {setOpened(true)}} />
@@ -67,64 +71,63 @@ export default function Settings(props) {
                         <Card shadow="sm" p="lg" className="dark:bg-gray-700 dark:text-white">
                             <h1 className="text-2xl font-bold">Customize</h1>
                             <form>
-                                <Checkbox
+                                <Switch
                                 label="View full assignments"
                                 mt="md"
                                 onClick={() => {
                                     toggleSetting('viewFull')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('viewFull', { type: 'checkbox' })}
                                 />
 
-                                <Checkbox
+                                <Switch
                                 label="Show links in assignments"
                                 mt="md"
-                                disabled={!settings.viewFull}
                                 onClick={() => {
                                     toggleSetting('showAssignmentLink')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('showAssignmentLink', { type: 'checkbox' })}
                                 />
 
-                                <Checkbox
-                                label="Show assignment post dates and authors"
+                                <Switch
+                                label="Show assignment authors"
                                 mt="md"
                                 onClick={() => {
                                     toggleSetting('showPostDate')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('showPostDate', { type: 'checkbox' })}
                                 />
 
-                                <Checkbox
+                                <Switch
                                 label="Show assignment times"
                                 mt="md"
                                 onClick={() => {
                                     toggleSetting('showAssignmentTime')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('showAssignmentTime', { type: 'checkbox' })}
                                 />
 
-                                <Checkbox
+                                <Switch
                                 label="Center assignment headers"
                                 mt="md"
                                 onClick={() => {
                                     toggleSetting('centerHeader')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('centerHeader', { type: 'checkbox' })}
                                 />
 
-                                <Checkbox
+                                <Switch
                                 label="Hide overdue assignments"
                                 mt="md"
                                 onClick={() => {
                                     toggleSetting('ignoreOldAssignments')
                                 }}
-                                classNames={{label: "dark:text-white"}}
+                                classNames={switchClass}
                                 {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
                                 />
 
