@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
-import { Drawer, TextInput, Card, Tabs, Select, Switch, Tooltip } from '@mantine/core'
-import { FaWrench, FaQuestionCircle } from 'react-icons/fa'
+import { Drawer, TextInput, Card, Tabs, Select, Switch } from '@mantine/core'
+import { FaWrench } from 'react-icons/fa'
 import IconTextButton from './IconTextButton.js'
 import { Context } from './Context.js'
 
