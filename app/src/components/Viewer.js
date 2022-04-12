@@ -63,7 +63,7 @@ export default function Viewer(props) {
                 <h1 className="text-xl md:text-3xl font-mono mr-2 ml-2">{date}</h1>
                 <IconButton icon={<FaAngleRight size="30" />} className="w-min h-min border-0" onClick={() => travelOneWeek('forward')} />
             </div>
-            <div className="grid grid-flow-row-dense grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+            <div className="sm:masonry-2-col lg:masonry-3-col before:box-inherit after:box-inherit">
                 {assignments}
             </div>
         </div>
