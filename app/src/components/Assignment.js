@@ -35,12 +35,12 @@ export default function Assignment(props) {
             )
         }
     }
-    const assignment = (
+    return (
         <div className="h-full w-full">
             <Card shadow="sm" p="lg" className="bg-gray-100 dark:bg-gray-700 dark:text-white h-full">
                     <div className={`flex flex-col mb-4 ${settings.centerHeader ? 'items-center':null}`}>
                         <h1 className="text-2xl font-bold">{props.subject}</h1>
-                        <p className={`text-sm text-gray-500 dark:text-gray-400 ${isBeforeToday() ? 'text-red-600 dark:text-red-400':null}`}>{props.date}</p>
+                        <p className={`text-sm text-gray-500 dark:text-gray-400 ${isBeforeToday() && settings.highlightOldAssignments ? 'text-red-600 dark:text-red-400':null}`}>{props.date}</p>
                         {settings.showAssignmentTime ? <p className="text-sm text-gray-600 dark:text-gray-300">{props.time}</p>:null}
                     </div>
                 <div className={showButton ? "mb-10":null}>
@@ -63,7 +63,7 @@ export default function Assignment(props) {
                     <div className="flex flex-col">
                         <h1 className="font-bold text-3xl align-left">{props.subject}</h1>
                         <div className="text-sm flex flex-col text-gray-500 dark:text-gray-400">
-                            <p className={isBeforeToday() ? 'text-red-600 dark:text-red-400':null}>{props.date}</p>
+                            <p className={isBeforeToday() && settings.highlightOldAssignments ? 'text-red-600 dark:text-red-400':null}>{props.date}</p>
                             <p>{props.time}</p>
                         </div>
                     </div>
@@ -78,8 +78,4 @@ export default function Assignment(props) {
             </Modal>
         </div>
     )
-    if (settings.ignoreOldAssignments) {
-        return isBeforeToday() ? null:assignment
-    }
-    return assignment
 }

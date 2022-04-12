@@ -118,13 +118,13 @@ export default function Settings(props) {
                                 />
 
                                 <Switch
-                                label="Hide overdue assignments"
+                                label="Highlight overdue assignments"
                                 mt="md"
                                 onClick={() => {
-                                    toggleSetting('ignoreOldAssignments')
+                                    toggleSetting('highlightOldAssignments')
                                 }}
                                 classNames={switchClass}
-                                {...form.getInputProps('ignoreOldAssignments', { type: 'checkbox' })}
+                                {...form.getInputProps('highlightOldAssignments', { type: 'checkbox' })}
                                 />
 
                                 <h1 className="text-xl mt-4">Visual preferences</h1>

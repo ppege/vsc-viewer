@@ -16,7 +16,7 @@ export default function WebApp() {
   })
   const [ settings, setSettings ] = useState(JSON.parse(localStorage.getItem('settings')) || {
     viewFull: false,
-    ignoreOldAssignments: false,
+    hideOldAssignments: false,
     showPostDate: false,
     showAssignmentTime: false,
     showAssignmentLink: false,
