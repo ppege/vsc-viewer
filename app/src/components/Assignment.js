@@ -36,14 +36,14 @@ export default function Assignment(props) {
         }
     }
     return (
-        <div className="h-full w-full">
+        <div className="h-full w-full pt-4 break-inside">
             <Card shadow="sm" p="lg" className="bg-gray-100 dark:bg-gray-700 dark:text-white h-full">
                     <div className={`flex flex-col mb-4 ${settings.centerHeader ? 'items-center':null}`}>
                         <h1 className="text-2xl font-bold">{props.subject}</h1>
                         <p className={`text-sm text-gray-500 dark:text-gray-400 ${isBeforeToday() && settings.highlightOldAssignments ? 'text-red-600 dark:text-red-400':null}`}>{props.date}</p>
                         {settings.showAssignmentTime ? <p className="text-sm text-gray-600 dark:text-gray-300">{props.time}</p>:null}
                     </div>
-                <div className={showButton ? "mb-10":null}>
+                <div className={showButton ? "mb-4":null}>
                     <p id="description" className={`text-md  ${settings.viewFull ? 'whitespace-pre-wrap':'truncate'}`}>
                         {props.description}
                     </p>
@@ -51,9 +51,12 @@ export default function Assignment(props) {
                     {settings.showPostDate ? <p className="text-gray-400/75 dark:text-gray-500 text-sm">{props.author}</p>:null}
                 </div>
                 
-                {showButton ? <Button onClick={() => {setOpened(true)}} variant="light" color="blue" style={{ marginTop: 14 }} className="bottom-2 inset-x-2 w-auto absolute hover:bg-gray-300/50 dark:hover:bg-gray-800/50 dark:text-blue-400 bg-gray-200/50 dark:bg-gray-800/25">
-                    Details
-                </Button>:null}
+                {showButton ? 
+                    <Button onClick={() => {setOpened(true)}} variant="light" color="blue" className="w-full hover:bg-gray-300/50 dark:hover:bg-gray-800/50 dark:text-blue-400 bg-gray-200/50 dark:bg-gray-800/25">
+                        Details
+                    </Button>
+                    :null
+                }
             </Card>
             <Modal
                 opened={opened}
