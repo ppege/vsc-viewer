@@ -19,7 +19,6 @@ export default function WebApp() {
     hideOldAssignments: false,
     showPostDate: false,
     showAssignmentTime: false,
-    showAssignmentLink: false,
     centerHeader: false,
     sort: 'newest'
   })
