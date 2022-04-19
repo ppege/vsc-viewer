@@ -88,16 +88,6 @@ export default function Settings(props) {
                                 />
 
                                 <Switch
-                                label="Show links in assignments"
-                                mt="md"
-                                onClick={() => {
-                                    toggleSetting('showAssignmentLink')
-                                }}
-                                classNames={switchClass}
-                                {...form.getInputProps('showAssignmentLink', { type: 'checkbox' })}
-                                />
-
-                                <Switch
                                 label="Show assignment authors"
                                 mt="md"
                                 onClick={() => {

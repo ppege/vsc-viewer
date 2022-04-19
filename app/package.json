@@ -25,6 +25,7 @@
     "react-lazyload": "^3.2.0",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
+    "react-string-replace": "^1.0.0",
     "viggoscrape": "^3.0.3",
     "web-vitals": "^2.1.4"
   },
