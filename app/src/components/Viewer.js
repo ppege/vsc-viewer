@@ -1,4 +1,5 @@
 import Assignment from './Assignment.js'
+import Error from './Error.js'
 import IconButton from './IconButton.js'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import React, { useState, useEffect, useContext } from 'react'
@@ -34,10 +35,14 @@ export default function Viewer(props) {
             return;
         }
         setAssignments(<Assignment {...{subject: "Loading...", description: "Please wait a moment."}} key="Loading" isMessage={true} />)
-        axios.get(`https://api.nangurepo.com/v2/scrape?username=${props.credentials.username}&password=${props.credentials.password}&subdomain=${props.credentials.subdomain}&date=${date}`)
+        axios.get(`https://api.nangurepo.com/v2/scrape?username=${props.credentials.username}&password=${props.credentials.password}&subdomain=${props.credentials.subdomain}&date=${date}&errorAssignments=1`)
         .then((response) => {
             if (!response.data.length) {
                 setAssignments(<Assignment {...{subject: "No assignments found", description: "No assignments were found for this date. You may have entered your credentials incorrectly."}} key="No assignments" isMessage={true} />)
+                return;
+            }
+            if (response.data[0].subject === "Error") {
+                setAssignments(<Error {...response.data[0]} key="Error" />)
                 return;
             }
             const sortByPreference = (object) => {

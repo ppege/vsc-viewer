@@ -8,7 +8,7 @@ export default function Assignment(props) {
     if (props.isMessage) {
         settings = {viewFull: true}
     }
-    const showButton = !(settings.viewFull && settings.showAssignmentTime && settings.showPostDate) && !props.isMessage
+    const showButton = !(settings.viewFull && settings.showAssignmentTime && settings.showPostDate) && !props.isMessage && (props.subject !== "Error")
     const [ opened, setOpened ] = useState(false);
     function isBeforeToday() {
         const today = new Date()
@@ -53,7 +53,7 @@ export default function Assignment(props) {
                     modal: "dark:bg-gray-800 dark:text-gray-200"
                 }}
             >
-                <LinkText className={`text-md  ${settings.viewFull ? 'whitespace-pre-wrap':'truncate'}`} text={props.description} />
+                <LinkText className="text-md whitespace-pre-wrap" text={props.description} />
                 <p className="pt-6 text-sm text-gray-400">{props.author}</p>
             </Modal>
         </div>
