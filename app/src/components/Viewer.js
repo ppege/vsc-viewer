@@ -2,7 +2,7 @@ import Assignment from './Assignment.js'
 import Error from './Error.js'
 import IconButton from './IconButton.js'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Context } from './Context.js'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -28,13 +28,18 @@ export default function Viewer(props) {
         }
     }
     const [ date, setDate ] = useState(dateToString(new Date()));
+    let oldDate = useRef(dateToString(new Date()))
     const [ assignments, setAssignments ] = useState(new Map())
     useEffect(() => {
         if (!props.credentials.username) {
             setAssignments(<Assignment {...{subject: "Credentials not set", description: "Please enter your ViGGO credentials in the settings menu."}} key="No credentials" isMessage={true} />)
             return;
         }
-        setAssignments(<Assignment {...{subject: "Loading...", description: "Please wait a moment."}} key="Loading" isMessage={true} />)
+        if (date === oldDate.current) {
+            setAssignments(<Assignment {...{subject: "Loading...", description: "Please wait a moment."}} key="Loading" isMessage={true} />)
+        } else {
+            oldDate.current = date
+        }
         axios.get(`https://api.nangurepo.com/v2/scrape?username=${props.credentials.username}&password=${props.credentials.password}&subdomain=${props.credentials.subdomain}&date=${date}&errorAssignments=1`)
         .then((response) => {
             if (!response.data.length) {
