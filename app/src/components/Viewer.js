@@ -13,22 +13,38 @@ export default function Viewer(props) {
         return dayjs(Date).startOf('week').add(1, 'day')
     }
     const dateToString = (dateString) => {
-        return findStartOfWeek(dayjs(dateString)).format('YYYY-MM-DD')
+        return dayjs(dateString).format('YYYY-MM-DD')
     }
     const travelOneWeek = (direction) => {
         switch (direction) {
             case 'back':
-                setDate(dateToString(dayjs(date).subtract(7, 'day')))
+                setDate(dateToString(findStartOfWeek(dayjs(date)).subtract(7, 'day')))
                 break;
             case 'forward':
-                setDate(dateToString(dayjs(date).add(7, 'day')))
+                setDate(dateToString(findStartOfWeek(dayjs(date)).add(7, 'day')))
                 break;
             default:
                 break;
         }
     }
-    const [ date, setDate ] = useState(dateToString(new Date()));
-    let oldDate = useRef(dateToString(new Date()))
+    const smartSort = (arr) => {
+
+        let today = dayjs(dayjs().format('YYYY-MM-DD'))
+
+        let overdue = []
+        let nonOverdue = []
+
+        for (const assignment of arr) {
+            if (dayjs(dayjs(assignment.date).year(dayjs().year())).isBefore(today)) {
+                overdue.push(assignment)
+            } else {
+                nonOverdue.push(assignment)
+            }
+        }
+        return nonOverdue.concat(overdue)
+    }
+    const [ date, setDate ] = useState(dateToString(findStartOfWeek(new Date())));
+    let oldDate = useRef(dateToString(findStartOfWeek(new Date())))
     const [ assignments, setAssignments ] = useState(new Map())
     useEffect(() => {
         if (!props.credentials.username) {
@@ -56,6 +72,8 @@ export default function Viewer(props) {
                         return object.reverse()
                     case 'oldest':
                         return object
+                    case 'smart':
+                        return smartSort(object)
                     default:
                         return object.reverse()
                 }
