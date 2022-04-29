@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from '@mantine/form';
 import { Drawer, TextInput, Card, Tabs, Switch } from '@mantine/core'
-import { FaWrench, FaArrowUp, FaArrowDown } from 'react-icons/fa'
+import { FaWrench, FaArrowUp, FaArrowDown, FaBrain } from 'react-icons/fa'
 import IconTextButton from './IconTextButton.js'
 import { Context } from './Context.js'
 
@@ -44,6 +44,9 @@ export default function Settings(props) {
         let values = 'newest'
         if (settings.sort === 'newest') {
             values = 'oldest'
+        }
+        if (settings.sort === 'oldest') {
+            values = 'smart'
         }
         setSettings({
             ...settings,
@@ -132,16 +135,18 @@ export default function Settings(props) {
                                 />
 
                                 
-                                    <button onClick={handleSortChange} type="button" className="bg-blue-500 hover:bg-blue-600 dark:bg-gray-800 dark:hover:bg-gray-900 text-white font-bold rounded mt-3 px-4 py-2">
-                                        <div className="flex flex-row items-center -ml-1 divide-x">
-                                            <div className="pr-3">
-                                                {settings.sort === 'newest' ? <FaArrowDown />:<FaArrowUp />}
-                                            </div>
-                                            <div className="pl-3">
-                                                <p>Sorting by {settings.sort}</p>
-                                            </div>
+                                <button onClick={handleSortChange} type="button" className="bg-blue-500 hover:bg-blue-600 dark:bg-gray-800 dark:hover:bg-gray-900 text-white font-bold rounded mt-3 px-4 py-2">
+                                    <div className="flex flex-row items-center -ml-1 divide-x">
+                                        <div className="pr-3">
+                                            {
+                                                (settings.sort === 'newest') ?<FaArrowDown />:(settings.sort === 'oldest') ? <FaArrowUp />:<FaBrain />
+                                            }
                                         </div>
-                                    </button>
+                                        <div className="pl-3">
+                                            <p>Sorting by {settings.sort}</p>
+                                        </div>
+                                    </div>
+                                </button>
                             </form>
                         </Card>
                     </Tabs.Tab>
