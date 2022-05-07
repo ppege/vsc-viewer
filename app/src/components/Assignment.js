@@ -17,8 +17,8 @@ export default function Assignment(props) {
     }
 
     return (
-        <div className="h-full w-full pt-4 break-inside">
-            <Card shadow="sm" p="lg" className="bg-gray-100 dark:bg-gray-700 dark:text-white h-full">
+        <div className="h-full w-full pt-2 break-inside">
+            <Card p="lg" className="bg-gray-100 dark:bg-gray-700 dark:text-white h-full mb-2 shadow-md">
                     <div className={`flex flex-col mb-4 ${settings.centerHeader ? 'items-center':null}`}>
                         <h1 className="text-2xl font-bold">{props.subject}</h1>
                         <p className={`text-sm text-gray-500 dark:text-gray-400 ${isBeforeToday() && settings.highlightOldAssignments ? 'text-red-600 dark:text-red-400':null}`}>{props.date}</p>
